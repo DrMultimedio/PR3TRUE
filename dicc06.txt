@@ -1,0 +1,11 @@
+4
+E F P I
+house * casa * le casette * casinha * casicci
+car * coche * le cochette * cochinho * 
+dog * perro * * * perricci
+friend * amigo * * amiguinho * amiguicci
+cat * * le gatette * gatinho *
+house * casa * le casette * casinha * casicci
+amalgamated * amalgamado * * * 
+demon * demonio * * demoninho * demonicci
+cat * * le gatette * gatinho *

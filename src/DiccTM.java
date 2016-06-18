@@ -47,7 +47,7 @@ public class DiccTM implements Diccionario{
 				fichero.close();
 			if (lectura!=null)//ni que lectura sea null
 				lectura.close();
-		}catch (IOException ex){//si esto falla lanzaremos la excepci�n
+		}catch (IOException ex){//si esto falla lanzaremos la excepcion
 			System.out.println(ex);
 		}
 
@@ -111,9 +111,27 @@ public class DiccTM implements Diccionario{
 			//y el mundo es maravilloso (ok no)
 			
 		}
-		if(dicc.containsKey(p.getOrigen())){
+		if(dicc.containsKey(p.getOrigen())){//si tengo la palabra
+			Vector<String> trad = p.getTraducciones();
+			for(int i = 0 ; i<nlenguas; i++){//recorro las traducciones de palabra
+				if(dicc.get(p.getOrigen()).get(i) == null && trad.get(i) != null){ //si no hay traduccion a la palabra y hay traducciones en palabra
+					dicc.get(p.getOrigen()).set(i, trad.get(i));
+					ret = true;
+				}
+				else{//si hay traduccion, habra que cambiarla SI NO ES LA MISMA :o
+					if(!dicc.get(p.getOrigen()).get(i).equalsIgnoreCase(trad.get(i))){ 
+						//si son diferentes sustituyo
+						dicc.get(p.getOrigen()).set(i, trad.get(i));
+						ret = true;
+					}
+					//si son iguales no hago nada
+				}
+			} //aqui se acaba el for
 			
-		
+		}
+		else{
+			dicc.put(p.getOrigen(), p.getTraducciones());
+			ret = true;
 		}
 		
 		
@@ -122,8 +140,13 @@ public class DiccTM implements Diccionario{
 
 	@Override
 	public boolean borra(String s) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		if(dicc.containsKey(s)){
+			dicc.remove(s);
+			ret = true;
+		}
+
+		return ret;
 	}
 
 	@Override
@@ -140,7 +163,10 @@ public class DiccTM implements Diccionario{
 
 	@Override
 	public void visualiza() {
-		// TODO Auto-generated method stub
+		NavigableMap<String, Vector<String>> k = dicc.descendingMap();
+		
+		System.out.println(dicc.descendingMap().toString());
+		System.out.println(dicc.toString());
 		
 	}
 
