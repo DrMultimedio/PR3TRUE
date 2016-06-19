@@ -14,7 +14,7 @@ public class DiccTM implements Diccionario{
 	public DiccTM(){
 		nlenguas = -1;
 		lenguas = new ArrayList<Character>();
-		dicc = new TreeMap<String, Vector<String>>();
+		dicc = new TreeMap<String, Vector<String>>(String.CASE_INSENSITIVE_ORDER);
 	}
 
 	@Override
