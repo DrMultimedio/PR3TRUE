@@ -140,45 +140,128 @@ public class DiccTM implements Diccionario{
 
 	@Override
 	public boolean borra(String s) {
-		boolean ret = false;
-		if(dicc.containsKey(s)){
-			dicc.remove(s);
-			ret = true;
+		//pues nada, haremos el iterador >:D
+		boolean ret = false; //por defecto devuelvo 0
+		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+		String iterado;
+		while(iterador.hasNext()){
+			iterado = iterador.next();
+			if(iterado.equalsIgnoreCase(s)){
+				dicc.remove(iterado);
+				ret = true;
+				break;
+			}
+			
 		}
-
 		return ret;
 	}
 
 	@Override
 	public int busca(String s) {
-		// TODO Auto-generated method stub
-		return 0;
+		//pues nada, haremos el iterador >:D
+		int ret = -1; //por defecto devuelvo 0
+		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+		String iterado;
+		while(iterador.hasNext()){
+			iterado = iterador.next();
+			if(iterado.equalsIgnoreCase(s)){
+				ret = 1;
+				break;
+			}
+			
+		}
+		return ret;
 	}
 
 	@Override
 	public String traduce(String s, char l) {
 		// TODO Auto-generated method stub
-		return null;
+		int i = 0;
+		boolean found = false;
+		if(dicc.containsKey(s)){
+			for(; i<lenguas.size() && found == false;i++){
+				if(lenguas.get(i) == l){
+					found = true;
+				}
+			}
+		}
+		if (found == true){
+			return dicc.get(s).get(i);
+		}
+		else{
+			return null;
+		}
 	}
 
 	@Override
 	public void visualiza() {
-		NavigableMap<String, Vector<String>> k = dicc.descendingMap();
-		
-		System.out.println(dicc.descendingMap().toString());
-		System.out.println(dicc.toString());
-		
+//npi de recorrer el arbol. Preguntare a Alicia ;_;
+		//let's give a try to iterators ^^
+		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+		String iterado;
+		while(iterador.hasNext()){
+			iterado = iterador.next();
+			Vector <String> traducciones=dicc.get(iterado);
+			System.out.print(iterado);
+			for(int i=0; i<traducciones.size();i++){
+				System.out.print(":"+traducciones.elementAt(i));
+			}
+			System.out.println();
+			
+		}
 	}
 
 	@Override
 	public void visualiza(int j) {
 		// TODO Auto-generated method stub
-		
+		//let's give a try to iterators ^^
+		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+		String iterado;
+		int k = 0;
+		while(iterador.hasNext()&& k<j){
+			iterado = iterador.next();
+			Vector <String> traducciones=dicc.get(iterado);
+			System.out.print(iterado);
+			for(int i=0; i<traducciones.size();i++){
+				System.out.print(":"+traducciones.elementAt(i));
+			}
+			k++;
+			System.out.println();
+			
+		}
 	}
 
 	@Override
 	public void visualiza(int j, char l) {
 		// TODO Auto-generated method stub
+		//let's give a try to iterators ^^
+		int m = 0; //aqui guardare la posicion del lenguaje
+		boolean found = false;
+		for (; m<nlenguas; m++){
+			if(lenguas.get(m) == l){
+				found = true;
+				break;
+			}
+		}
+
+			Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+			String iterado;
+			int k = 0;
+			while(iterador.hasNext() && k<j){
+				iterado = iterador.next();
+				Vector <String> traducciones=dicc.get(iterado);
+				System.out.print(iterado);
+				if(found == true){
+					System.out.print(":"+traducciones.elementAt(m));
+				}
+				else{
+					System.out.print(":");
+				}
+				System.out.println();
+				k++;
+
+			}
 		
-	}
+	}		
+
 }
