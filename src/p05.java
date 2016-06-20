@@ -11,6 +11,7 @@
 public class p05 {
   public static void main(String[] args){
     Diccionario diccio=new DiccTM();
+    
     if(args.length>=1){
       diccio.leeDiccionario(args[0]);
       System.out.println("borra america? -> "+diccio.borra("america"));

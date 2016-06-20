@@ -8,6 +8,7 @@
 public class p02 {
   public static void main(String[] args){
     Diccionario diccio=new DiccTM();
+    
     if(args.length>=1){
       diccio.leeDiccionario(args[0]);
       System.out.println("encuentra america? -> "+diccio.busca("america"));

@@ -8,7 +8,7 @@ import java.util.*;
 public class DiccTM implements Diccionario{
 
 	private int nlenguas;
-	private ArrayList<Character> lenguas; //E español, P portugues, F frances
+	private ArrayList<Character> lenguas; 
 	private TreeMap<String, Vector<String>> dicc;
 	private char[] lenguasaux;
 	public DiccTM(){
@@ -93,7 +93,9 @@ public class DiccTM implements Diccionario{
 	}
 
 
-	@Override
+	public int getNlenguas(){
+		return nlenguas;
+	}
 	public boolean inserta(Palabra2 p) {
 		// TODO Auto-generated method stub
 		boolean ret = false;
