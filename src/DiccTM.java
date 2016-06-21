@@ -100,7 +100,8 @@ public class DiccTM implements Diccionario{
 		// TODO Auto-generated method stub
 		boolean ret = false;
 		//comprobamos que nada sea null
-		if(p != null && p.getOrigen() != null){
+		Vector<String> trads = null;
+		if(p != null && p.getOrigen() != null && p.getOrigen().isEmpty() != true){
 			for(int i = 0; i<lenguas.size(); i++){
 				//comprobamos que la palabra tenga los mismos idiomas
 				if(lenguas.get(i) != p.getLenguas()[i]){
@@ -111,32 +112,34 @@ public class DiccTM implements Diccionario{
 			//a partir de este punto las lenguas son iguales
 			//y nada es null
 			//y el mundo es maravilloso (ok no)
-			
-		}
-		if(dicc.containsKey(p.getOrigen())){//si tengo la palabra
-			Vector<String> trad = p.getTraducciones();
-			for(int i = 0 ; i<nlenguas; i++){//recorro las traducciones de palabra
-				if(dicc.get(p.getOrigen()).get(i) == null && trad.get(i) != null){ //si no hay traduccion a la palabra y hay traducciones en palabra
-					dicc.get(p.getOrigen()).set(i, trad.get(i));
-					ret = true;
-				}
-				else{//si hay traduccion, habra que cambiarla SI NO ES LA MISMA :o
-					if(!dicc.get(p.getOrigen()).get(i).equalsIgnoreCase(trad.get(i))){ 
-						//si son diferentes sustituyo
-						dicc.get(p.getOrigen()).set(i, trad.get(i));
+
+
+			if(dicc.containsKey(p.getOrigen())){//si tengo la palabra
+				Vector<String> trad = p.getTraducciones();
+				for(int i = 0 ; i<nlenguas; i++){//recorro las traducciones de palabra
+					if( (dicc.get(p.getOrigen()).get(i) == null || dicc.get(p.getOrigen()).get(i).isEmpty())
+						&& trad.get(i) != null && trad.get(i).isEmpty() == false){ //si no hay traduccion a la palabra y hay traducciones en palabra
+						dicc.get(p.getOrigen()).setElementAt(trad.get(i), i);
+						System.out.println(dicc.get(p.getOrigen()).toString());
 						ret = true;
 					}
-					//si son iguales no hago nada
-				}
-			} //aqui se acaba el for
-			
+					else{//si hay traduccion, habra que cambiarla SI NO ES LA MISMA :o
+						if(!dicc.get(p.getOrigen()).get(i).equalsIgnoreCase(trad.get(i)) && trad.get(i) != null && trad.get(i) != ""){ 
+							//si son diferentes sustituyo
+							dicc.get(p.getOrigen()).setElementAt(trad.get(i), i);
+							ret = true;
+						}
+						//si son iguales o trad[i] esta vacia no hago nada 
+					}
+				} //aqui se acaba el for
+
+			}
+			else{
+				dicc.put(p.getOrigen(), p.getTraducciones());
+				ret = true;
+			}
+
 		}
-		else{
-			dicc.put(p.getOrigen(), p.getTraducciones());
-			ret = true;
-		}
-		
-		
 		return ret;
 	}
 
@@ -153,7 +156,7 @@ public class DiccTM implements Diccionario{
 				ret = true;
 				break;
 			}
-			
+
 		}
 		return ret;
 	}
@@ -170,7 +173,7 @@ public class DiccTM implements Diccionario{
 				ret = 1;
 				break;
 			}
-			
+
 		}
 		return ret;
 	}
@@ -180,10 +183,14 @@ public class DiccTM implements Diccionario{
 		// TODO Auto-generated method stub
 		int i = 0;
 		boolean found = false;
+		if(s==null){
+			return null;
+		}
 		if(dicc.containsKey(s)){
 			for(; i<lenguas.size() && found == false;i++){
 				if(lenguas.get(i) == l){
 					found = true;
+					break;
 				}
 			}
 		}
@@ -197,7 +204,7 @@ public class DiccTM implements Diccionario{
 
 	@Override
 	public void visualiza() {
-//npi de recorrer el arbol. Preguntare a Alicia ;_;
+		//npi de recorrer el arbol. Preguntare a Alicia ;_;
 		//let's give a try to iterators ^^
 		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
 		String iterado;
@@ -209,7 +216,7 @@ public class DiccTM implements Diccionario{
 				System.out.print(":"+traducciones.elementAt(i));
 			}
 			System.out.println();
-			
+
 		}
 	}
 
@@ -229,7 +236,7 @@ public class DiccTM implements Diccionario{
 			}
 			k++;
 			System.out.println();
-			
+
 		}
 	}
 
@@ -246,24 +253,25 @@ public class DiccTM implements Diccionario{
 			}
 		}
 
-			Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
-			String iterado;
-			int k = 0;
-			while(iterador.hasNext() && k<j){
-				iterado = iterador.next();
-				Vector <String> traducciones=dicc.get(iterado);
-				System.out.print(iterado);
-				if(found == true){
-					System.out.print(":"+traducciones.elementAt(m));
-				}
-				else{
-					System.out.print(":");
-				}
-				System.out.println();
-				k++;
-
+		Iterator<String> iterador = dicc.keySet().iterator(); //guardo en el iterador las palabras origen
+		String iterado;
+		int k = 0;
+		while(iterador.hasNext() && k<j){
+			iterado = iterador.next();
+			Vector <String> traducciones=dicc.get(iterado);
+			System.out.print(iterado);
+			if(found == true){
+				System.out.print(":"+traducciones.elementAt(m));
 			}
-		
-	}		
+			else{
+				System.out.print(":");
+			}
+			System.out.println();
+			k++;
+
+		}
+
+	}
+
 
 }

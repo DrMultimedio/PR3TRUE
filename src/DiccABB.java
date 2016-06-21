@@ -44,9 +44,12 @@ public class DiccABB implements Diccionario{
 	private int nlenguas;
 	private ArrayList<Character> lenguas; 
 	private char[] lenguasaux;
+	private NodoABB dicc; //raÄ±z del arbol que almacena el diccionario ordenado por la lengua origen.
+
 	public DiccABB(){
 		nlenguas = -1;
 		lenguas = new ArrayList<Character>();
+		dicc = null;
 	}
 	@Override
 	public void leeDiccionario(String f){
@@ -128,8 +131,72 @@ public class DiccABB implements Diccionario{
 	@Override
 	public boolean inserta(Palabra2 p) {
 		// TODO Auto-generated method stub
-		//uf que pereza me da hacer este metodo
-		return false;
+		boolean ret = false, found = false;
+		char[] lenguasPalabra;
+		int comparacion = 0;
+		NodoABB recorre = dicc, aux = dicc, nuevo;
+		nuevo = new NodoABB(p);
+		//compruebo que la palabra sea insertable
+		if(p != null){
+			lenguasPalabra = p.getLenguas();
+			if(lenguasPalabra.length == lenguas.size()){
+				for(int i=0; i<lenguasPalabra.length; i++){
+					if(lenguasPalabra[i] != lenguas.get(i)){
+						return false;
+					}
+				}
+			}
+		}
+		else{
+			return false;
+		}
+		//a partir de aqui el mundo es maravilloso. No existen nulos. Las lenguas son iguales. 
+			if(dicc == null){
+				//si es el primero, dicc sera la palabra que pongo
+				dicc = nuevo;
+			}
+			else{
+				while(recorre != null){
+					comparacion = recorre.getPalabra2().getOrigen().compareToIgnoreCase(p.getOrigen());
+					if(comparacion == 0){
+						//la palabra es igual
+						Palabra2 paux = recorre.getPalabra2();
+						if(paux.combinaPalabra(p)!=-1){
+							recorre.setPalabra2(paux);
+							ret = true;
+						}
+						found = true;
+						break;
+					}
+					else if (comparacion >0){
+						//la palabra de recorre es "mayor" que la que me pasan
+						//la paso a la derecha
+						aux = recorre;
+						recorre = recorre.getHijoIz();
+					}
+					else if(comparacion < 0){
+						//la palabra de recorre es "menor" que la que me pasan
+						//la paso a la derecha
+						aux = recorre;
+						recorre = recorre.getHijoDe();					
+					}
+				}
+				if(found == false && ret == false){
+					//si no la encuentro, uso la comparacion anterior
+					if(comparacion > 0){
+						aux.cambiaHijoIz(nuevo);
+						System.out.println("insertado " + p.getOrigen() +" por la izquierda");
+						ret = true;
+					}
+					else if(comparacion < 0){
+						aux.cambiaHijoDe(nuevo);
+						System.out.println("insertado " + p.getOrigen() + " por la derecha");
+						ret = true;
+					}
+				}
+			}
+		
+		return ret;
 	}
 
 	@Override
@@ -153,11 +220,8 @@ public class DiccABB implements Diccionario{
 	}
 
 	@Override
-	public void visualiza() {
-		// TODO Auto-generated method stub
-
+	public void visualiza() {// :(
 	}
-
 	@Override
 	public void visualiza(int j) {
 		// TODO Auto-generated method stub
@@ -173,10 +237,10 @@ public class DiccABB implements Diccionario{
 		//muestra todas las palabras del diccionario con un orden preorden
 	}
 	public void niveles(){
-//		muestra todas las palabras del diccionario con
-//		todas las traducciones con el formato indicado para el m´etodo escribeInfo de
-//		la clase Palabra2 seg´un el recorrido por niveles en un ´arbol binario
-		
+		//		muestra todas las palabras del diccionario con
+		//		todas las traducciones con el formato indicado para el mï¿½etodo escribeInfo de
+		//		la clase Palabra2 segï¿½un el recorrido por niveles en un ï¿½arbol binario
+
 	}
 	public void camino(String s){
 		//muestra el camino hacia una cadena

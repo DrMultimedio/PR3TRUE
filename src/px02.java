@@ -1,7 +1,7 @@
 
-public class p07 {
+public class px02 {
 	public static void main(String[] args){
-	    DiccTM diccio=new DiccTM();
+		DiccABB diccio=new DiccABB();
 	    diccio.leeDiccionario("p07.dic");
 	    diccio.visualiza();
 	    System.out.println("No deberia haber nada aqui");
